@@ -25,6 +25,8 @@ public class JobLauncherController {
                     .addString("requestDate", requestDate)
                     .toJobParameters();
             jobLauncher.run(job, jobParameters);
+
+
             return "Job launched successfully!";
         } catch (Exception e){
             e.printStackTrace();
