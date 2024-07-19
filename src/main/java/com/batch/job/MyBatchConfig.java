@@ -28,6 +28,7 @@ public class MyBatchConfig {
     public Job simpleJob() {
         return jobBuilderFactory.get("simpleJob")
                 .start(simpleStep1(null))
+                .next(simpleStep2(null))
                 .build();
     }
 
@@ -36,7 +37,17 @@ public class MyBatchConfig {
     public Step simpleStep1(@Value("#{jobParameters[requestDate]}") String requestDate) {
         return stepBuilderFactory.get("simpleStep1")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info(">>>>> This is Step1");
+                    throw new IllegalArgumentException("Step1에서 실패합니다 ㅠㅠ");
+                })
+                .build();
+    }
+
+    @Bean
+    @JobScope
+    public Step simpleStep2(@Value("#{jobParameters[requestDate]}") String requestDate) {
+        return stepBuilderFactory.get("simpleStep2")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info(">>>>> This is Step2");
                     log.info(">>>>> requestDate = {}", requestDate);
                     return RepeatStatus.FINISHED;
                 })
