@@ -2,6 +2,7 @@ spring:
   application:
     name: batch
 
+
   h2:
     console:
       enabled: true
@@ -22,5 +23,6 @@ spring:
   batch:
     job:
       enabled: true
+      names: ${job.name:NONE}
     jdbc:
       initialize-schema: always
